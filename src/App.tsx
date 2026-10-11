@@ -46,6 +46,12 @@ const { isLoggedIn } = useAuth();
         }
       />
 
+      <Route
+        path="/signup"
+        element={
+          isLoggedIn ? <Navigate to="/dashboard" replace /> : <Signup />
+        }
+      />
 
       <Route
         path="/dashboard"
