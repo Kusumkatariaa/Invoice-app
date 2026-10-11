@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Items from "./pages/Items";
 import Invoices from "./pages/Invoices";
+import InvoiceEditor from "./pages/InvoiceEditor";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/items" element={<Items />} />
         <Route path="/invoices" element={<Invoices />} />
+        <Route path="/invoice/editor" element={<InvoiceEditor />} />
+        <Route path="/invoice/editor/:id" element={<InvoiceEditor />} />
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
     </div>
