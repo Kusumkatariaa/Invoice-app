@@ -12,17 +12,19 @@
     background: white !important;
   }
 
-  body * {
-    visibility: hidden;
+  body *{
+    visibility: visible;
   }
 
   .invoice-paper,
   .invoice-paper * {
     visibility: visible;
   }
-
+nav {
+    display: none;
+}
   .invoice-paper {
-    position: absolute;
+    position: static;
     top: 0;
     left: 0;
     width: 100%;

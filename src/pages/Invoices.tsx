@@ -355,7 +355,11 @@ function Invoices() {
                               Edit
                             </button>
                             <button
-                              onClick={() => window.print()}
+                              onClick = {() => {
+                                if (id) {
+                                  window.location.href = `/invoice/print?invoiceID=${id}`;
+                                }
+                              }}
                               className="font-medium text-slate-600 hover:underline"
                             >
                               Print
