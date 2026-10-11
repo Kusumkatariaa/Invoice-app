@@ -1,1 +1,56 @@
 @import "tailwindcss";
+
+
+@page {
+  size: A4;
+  margin: 12mm;
+}
+
+@media print {
+  html,
+  body {
+    background: white !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .invoice-paper,
+  .invoice-paper * {
+    visibility: visible;
+  }
+
+  .invoice-paper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  table {
+    width: 100%;
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

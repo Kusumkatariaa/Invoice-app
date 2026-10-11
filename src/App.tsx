@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Items from "./pages/Items";
 import Invoices from "./pages/Invoices";
 import InvoiceEditor from "./pages/InvoiceEditor";
+import InvoicePrint from "./pages/InvoicePrint";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/invoices" element={<Invoices />} />
         <Route path="/invoice/editor" element={<InvoiceEditor />} />
         <Route path="/invoice/editor/:id" element={<InvoiceEditor />} />
+        <Route path="/invoice/print" element={<InvoicePrint />} />
         <Route path="*" element={<h1>404 - Page Not Found</h1>} />
       </Routes>
     </div>
