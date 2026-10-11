@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import api from "../services/api";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,7 +50,7 @@ function Login() {
     if (company) {
     storage.setItem("company", JSON.stringify(company));
     }
-
+login();
       navigate("/dashboard");
     } catch (err: unknown) {
       if (typeof err === "object" && err !== null && "response" in err) {
