@@ -19,6 +19,10 @@ type Invoice = {
   invoiceAmount?: number;
 };
 
+
+
+
+
 const columns = [
   { key: "invoiceNo", label: "Invoice No." },
   { key: "date", label: "Date" },
@@ -41,7 +45,48 @@ function Invoices() {
   const [visible, setVisible] = useState<string[]>(
     columns.map((column) => column.key)
   );
-
+  
+  type DateRange = "Today" | "Week" | "Month" | "Year" | "Custom";
+  
+  const[dateRange, setDateRange] = useState<DateRange>("Custom");
+  
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+  };
+  
+  const applyDateRange = (range: DateRange) => {
+    setDateRange(range);
+  
+    const today = new Date();
+    const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  
+  
+    if (range === "Today") {
+    // Today
+    } else if (range === "Week") {
+        const day = startDate.getDay();
+        startDate.setDate(startDate.getDate() - (day === 0 ? 6 : day - 1));
+    } else if (range === "Month") {
+      startDate.setDate(1);
+    } else if (range === "Year") {
+      startDate.setMonth(0, 1);
+    } else {
+      return;
+    }
+    const from = formatDate(startDate);
+    const to = formatDate(today);
+    setFromDate(from);
+    setToDate(to);
+  
+    localStorage.setItem(
+      "invoiceDateRange",
+      JSON.stringify({ range, from, to })
+    );
+  };
+  
   async function loadInvoices() {
     setLoading(true);
     setError("");
@@ -209,6 +254,29 @@ function Invoices() {
                 className="w-full rounded-lg border px-3 py-2"
               />
             </div>
+            <div className="md:col-span-3">
+                <label className="mb-2 block text-sm font-medium">
+                  Date Range
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {(["Today", "Week", "Month", "Year", "Custom"] as const).map(
+                    (range) => (
+                      <button
+                        key={range}
+                        type="button"
+                        onClick={() => applyDateRange(range)}
+                        className={`rounded-lg border px-4 py-2 text-sm ${
+                          dateRange === range
+                            ? "border-blue-600 bg-blue-600 text-white"
+                            : "border-slate-300 bg-white"
+                        }`}
+                      >
+                        {range}
+                      </button>
+                    )
+                  )}
+                </div>
+            </div>
             <div>
               <label htmlFor="from-date" className="mb-1 block text-sm font-medium">
                 From date
@@ -218,7 +286,10 @@ function Invoices() {
                 type="date"
                 value={fromDate}
                 max={toDate || undefined}
-                onChange={(event) => setFromDate(event.target.value)}
+                onChange={(event) => {
+                  setFromDate(event.target.value);
+                  setDateRange("Custom");
+                }}
                 className="w-full rounded-lg border px-3 py-2"
               />
             </div>
@@ -231,7 +302,10 @@ function Invoices() {
                 type="date"
                 value={toDate}
                 min={fromDate || undefined}
-                onChange={(event) => setToDate(event.target.value)}
+                onChange={(event) => {
+                  setToDate(event.target.value);
+                  setDateRange("Custom");
+                }}
                 className="w-full rounded-lg border px-3 py-2"
               />
             </div>
@@ -259,6 +333,7 @@ function Invoices() {
                   setSearch("");
                   setFromDate("");
                   setToDate("");
+                  setDateRange("Custom");
                 }}
                 className="rounded-lg border px-3 py-2 text-sm hover:bg-slate-50"
               >
